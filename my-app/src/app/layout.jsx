@@ -15,7 +15,7 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
   const session = await getAuthSession();
-  console.log(session);
+  console.log(session, "session");
   return (
     <html lang="en">
       <body className={`${poppins.className} antialiased`}>

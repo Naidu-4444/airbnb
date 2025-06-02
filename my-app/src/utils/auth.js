@@ -1,9 +1,10 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "./prisma";
 import GoogleProvider from "next-auth/providers/google";
-import Credentials from "next-auth/providers/credentials";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { hash, hashCompare } from "keyhasher";
 import { getServerSession } from "next-auth";
+
 export const authOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
@@ -11,34 +12,34 @@ export const authOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
-    Credentials({
-      name: "Credentials",
+    CredentialsProvider({
+      name: "credentials",
       credentials: {
-        email: { label: "Email", type: "email", placeholder: "Email" },
-        password: {
-          label: "Password",
-          type: "password",
-          placeholder: "Password",
-        },
+        email: { label: "email", type: "text" },
+        password: { label: "password", type: "password" },
       },
       async authorize(credentials) {
         if (!credentials.email || !credentials.password) {
-          throw new Error("invalid credentials");
+          throw new Error("Invalid credentials");
         }
+        console.log(credentials, " credentials from auth js");
         const user = await prisma.user.findUnique({
           where: {
             email: credentials.email,
           },
         });
+
         if (!user || !user?.hashedPassword) {
-          throw new Error("invalid credentials");
+          throw new Error("User not found");
         }
+
         const isCorrectPassword = await hashCompare(
-          hash(credentials.password),
-          user.hashedPassword
+          user.hashedPassword,
+          hash(credentials.password)
         );
+
         if (!isCorrectPassword) {
-          throw new Error("invalid credentials");
+          throw new Error("Invalid credentials");
         }
         return user;
       },
@@ -48,7 +49,7 @@ export const authOptions = {
     signIn: "/",
   },
   session: {
-    stategy: "jwt",
+    strategy: "jwt",
   },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
@@ -60,10 +61,10 @@ export const authOptions = {
     },
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id;
-        token.email = user.email;
-        token.name = user.name;
-        token.image = user.image;
+        (token.id = user.id),
+          (token.email = user.email),
+          (token.name = user.name),
+          (token.image = user.image);
       }
       return token;
     },
