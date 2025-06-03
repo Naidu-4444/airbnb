@@ -1,3 +1,4 @@
+import Becomehostfn from "@/components/becomehostfn";
 import { getAuthSession } from "@/utils/auth";
 import Link from "next/link";
 
@@ -14,6 +15,10 @@ const Becomehost = async () => {
       </section>
     );
   }
-  return <div>Becomehost</div>;
+  return (
+    <div>
+      <Becomehostfn />
+    </div>
+  );
 };
 export default Becomehost;
