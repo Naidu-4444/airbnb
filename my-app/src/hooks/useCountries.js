@@ -8,8 +8,6 @@ const formatCountries = countries.map((country) => ({
   region: country.region,
 }));
 
-console.log(formatCountries);
-
 const useCountries = () => {
   const getAll = () => formatCountries;
   const getbyValue = (value) => {
