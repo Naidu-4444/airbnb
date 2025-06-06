@@ -1,5 +1,7 @@
-import Image from "next/image";
+import getListing from "./actions/getListing";
 
-export default function Home() {
-  return <div>Airbnb</div>;
+export default async function Home({ searchParams }) {
+  const Listings = await getListing({ searchParams });
+
+  return <div>{JSON.stringify(Listings)}</div>;
 }

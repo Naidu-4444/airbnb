@@ -10,6 +10,9 @@ import Imageupload from "./imageupload";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import axios from "axios";
+import { toast } from "@/hooks/use-toast";
+import { useRouter } from "next/router";
 
 const steps = {
   CATEGORY: 0,
@@ -22,7 +25,7 @@ const steps = {
 
 const Becomehostfn = () => {
   const [step, setStep] = useState(steps.CATEGORY);
-
+  const router = useRouter();
   const { register, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
       category: "",
@@ -33,7 +36,7 @@ const Becomehostfn = () => {
       imageSrc: "",
       title: "",
       description: "",
-      price: null,
+      price: "",
     },
   });
 
@@ -41,20 +44,23 @@ const Becomehostfn = () => {
     setValue(title, value);
   };
 
-  const gonext = () => {
+  const gonext = (data) => {
+    console.log(data);
     if (step === steps.PRICE) {
-      setStep(steps.CATEGORY);
+      axios.post("/api/listing", data).then(() => {
+        toast({
+          title: "Success",
+          description: "Property created",
+        });
+        router.push("/properties");
+      });
     } else {
       setStep((prev) => prev + 1);
     }
   };
 
   const goBack = () => {
-    if (step === steps.CATEGORY) {
-      setStep(steps.PRICE);
-    } else {
-      setStep((prev) => prev - 1);
-    }
+    setStep((prev) => prev - 1);
   };
 
   const category = watch("category");
@@ -63,6 +69,7 @@ const Becomehostfn = () => {
   const children = watch("children");
   const guestCount = watch("guestCount");
   const imageSrc = watch("imageSrc");
+
   const isstepvalid = useMemo(() => {
     switch (step) {
       case steps.CATEGORY:
@@ -220,16 +227,26 @@ const Becomehostfn = () => {
           >
             <ArrowLeft size={35} className="text-white" />
           </button>
-          <button
-            onClick={gonext}
-            disabled={!isstepvalid}
-            className={cn(
-              "p-4 rounded-full cursor-pointer",
-              isstepvalid ? "bg-red-400" : "bg-gray-400 cursor-not-allowed"
-            )}
-          >
-            <ArrowRight size={35} className="text-white" />
-          </button>
+
+          {step === steps.PRICE ? (
+            <button
+              onClick={handleSubmit(gonext)}
+              className="bg-red-400 p-4 rounded-full text-white"
+            >
+              Submit
+            </button>
+          ) : (
+            <button
+              onClick={handleSubmit(gonext)}
+              disabled={!isstepvalid}
+              className={cn(
+                "p-4 rounded-full cursor-pointer",
+                isstepvalid ? "bg-red-400" : "bg-gray-400 cursor-not-allowed"
+              )}
+            >
+              <ArrowRight size={35} className="text-white" />
+            </button>
+          )}
         </div>
 
         <div

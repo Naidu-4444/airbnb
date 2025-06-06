@@ -7,7 +7,7 @@ const Counterinput = ({ value, onChange }) => {
   }, [value, onChange]);
 
   const onSub = useCallback(() => {
-    if (value === 1) return;
+    if (value === 0) return;
     onChange(value - 1);
   }, [value, onChange]);
 
