@@ -12,7 +12,7 @@ import { Textarea } from "./ui/textarea";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import axios from "axios";
 import { toast } from "@/hooks/use-toast";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const steps = {
   CATEGORY: 0,

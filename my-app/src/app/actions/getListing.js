@@ -10,41 +10,53 @@ export default async function getListing({ searchParams }) {
       childCount,
       startDate,
       endDate,
+      category,
     } = searchParams;
-    let query;
-    query = {
-      ...query,
-      ...(locationValue && { locationValue }),
-      ...(guestCount && { guestCount: { gte: +guestCount } }),
-      ...(roomCount && { roomCount: { gte: +roomCount } }),
-      ...(childCount && { childCount: { gte: +childCount } }),
-    };
+
+    let query = {};
+
+    if (locationValue) {
+      query.locationValue = locationValue;
+    }
+
+    if (guestCount) {
+      query.guestCount = { gte: +guestCount };
+    }
+
+    if (roomCount) {
+      query.roomCount = { gte: +roomCount };
+    }
+
+    if (childCount) {
+      query.childCount = { gte: +childCount };
+    }
+
+    if (category) {
+      query.category = category;
+    }
 
     if (startDate && endDate) {
       const formatedStDate = formatISO(new Date(startDate));
       const formatedEndDate = formatISO(new Date(endDate));
-      console.log(formatedStDate, formatedEndDate);
-      query = {
-        ...query,
 
-        NOT: {
-          reservations: {
-            some: {
-              OR: [
-                {
-                  startDate: { lte: formatedEndDate },
-                  endDate: { gte: formatedStDate },
-                },
-                {
-                  startDate: { lte: formatedStDate },
-                  endDate: { gte: formatedEndDate },
-                },
-              ],
-            },
+      query.NOT = {
+        reservations: {
+          some: {
+            OR: [
+              {
+                startDate: { lte: formatedEndDate },
+                endDate: { gte: formatedStDate },
+              },
+              {
+                startDate: { lte: formatedStDate },
+                endDate: { gte: formatedEndDate },
+              },
+            ],
           },
         },
       };
     }
+
     return await prisma.listing.findMany({ where: query });
   } catch (error) {
     console.log(error);

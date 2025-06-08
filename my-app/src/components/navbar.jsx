@@ -27,24 +27,27 @@ const Navbar = () => {
       </div>
       <div className="flex gap-3 bg-white rounded-full px-3 py-[4px] items-center border-2 border-gray-300">
         <div
-          className="hover:bg-gray-200 transition-colors duration-200 delay-100 px-3 py-1 rounded-full"
+          className="hover:bg-gray-200 transition-colors duration-200 delay-100 px-3 py-1 rounded-full cursor-pointer"
           onClick={() => openstep(0)}
         >
           Location
         </div>
         <div
-          className="hover:bg-gray-200 transition-colors duration-200 delay-100 px-3 py-1 rounded-full"
+          className="hover:bg-gray-200 transition-colors duration-200 delay-100 px-3 py-1 rounded-full cursor-pointer"
           onClick={() => openstep(1)}
         >
           Date
         </div>
         <div
-          className="hover:bg-gray-200 transition-colors duration-200 delay-100 px-3 py-1 rounded-full"
+          className="hover:bg-gray-200 transition-colors duration-200 delay-100 px-3 py-1 rounded-full cursor-pointer"
           onClick={() => openstep(2)}
         >
           Details
         </div>
-        <div className="bg-red-400 rounded-full p-2 text-white hover:scale-105 transition-transform duration-200 delay-100">
+        <div
+          className="bg-red-400 rounded-full p-2 text-white hover:scale-105 transition-transform duration-200 delay-100 cursor-pointer"
+          onClick={() => openstep(0)}
+        >
           <Search />
         </div>
       </div>

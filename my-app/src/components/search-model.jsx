@@ -5,7 +5,7 @@ import { Button } from "./ui/button";
 import Countryselect from "./country-select";
 import Calendar from "./calendar";
 import Counterinput from "./counter-input";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const STEPS = {
   LOCATION: 0,
@@ -24,6 +24,7 @@ const SearchModel = ({ open, setopen, modelstate }) => {
   const [guest, setguest] = useState(2);
   const [rooms, setrooms] = useState(1);
   const [children, setchildren] = useState(0);
+  const searchParams = useSearchParams();
   const router = useRouter();
   const sourcestep = {
     [STEPS.LOCATION]: (
@@ -70,11 +71,14 @@ const SearchModel = ({ open, setopen, modelstate }) => {
   };
   const next = useCallback(() => {
     if (step == 2) {
+      const params = new URLSearchParams(searchParams.toString());
+      const category = params.get("category");
       const queryParams = {
         ...(location?.value && { locationValue: location?.value }),
         ...(guest && { guestCount: guest }),
         ...(rooms && { roomCount: rooms }),
         ...(children && { childCount: children }),
+        ...(category && { category: category }),
         ...(dateRange && {
           startDate: dateRange.startDate,
           endDate: dateRange.endDate,
@@ -89,7 +93,9 @@ const SearchModel = ({ open, setopen, modelstate }) => {
               )}`
           )
           .join("&");
-        const url = `/?${quesrySTring}`;
+
+        console.log(category, "current");
+        const url = `/?${quesrySTring}&category=${category}`;
         router.push(url);
         setopen(false);
       }
@@ -100,9 +106,9 @@ const SearchModel = ({ open, setopen, modelstate }) => {
   return (
     <>
       {open ? (
-        <div className="fixed top-0 left-0 w-full h-screen">
-          <div className="w-full relative h-screen bg-black/40">
-            <div className="modal__content p-5 bg-white w-full md:w-3/5 min-h-[300px] absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md shadow-lg">
+        <div className="fixed top-0 left-0 w-full h-screen z-[50]">
+          <div className="w-full relative h-screen bg-black/40 z-[51]">
+            <div className="modal__content p-5 bg-white w-full md:w-3/5 min-h-[300px] absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md shadow-lg z-[52]">
               {sourcestep[step]}
               <X
                 className="float-right cursor-pointer absolute top-4 right-3"
