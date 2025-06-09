@@ -2,7 +2,7 @@ import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 
-const Calendar = ({ value, onChange, ...props }) => {
+const Calendar = ({ value, onChange, disabledDates, ...props }) => {
   return (
     <div>
       <DateRange
@@ -10,11 +10,8 @@ const Calendar = ({ value, onChange, ...props }) => {
         onChange={onChange}
         {...props}
         minDate={new Date()}
+        disabledDates={disabledDates}
       />
-      <div className="text-sm text-gray-500 mt-2">
-        {value.startDate.toLocaleDateString()} -{" "}
-        {value.endDate.toLocaleDateString()}
-      </div>
     </div>
   );
 };

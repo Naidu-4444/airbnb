@@ -17,7 +17,6 @@ export async function POST(request) {
         hashedPassword: hashed,
       },
     });
-    console.log(user);
     return NextResponse.json(user, { status: 200 });
   } catch (e) {
     console.log(e);

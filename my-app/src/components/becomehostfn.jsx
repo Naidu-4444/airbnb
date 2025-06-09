@@ -45,7 +45,6 @@ const Becomehostfn = () => {
   };
 
   const gonext = (data) => {
-    console.log(data);
     if (step === steps.PRICE) {
       axios.post("/api/listing", data).then(() => {
         toast({

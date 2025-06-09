@@ -4,7 +4,6 @@ const Imageupload = ({ value, returnUrl }) => {
   const handleChange = async (e) => {
     const file = e.target.files[0];
     const { url } = await UploadtoBlob(file);
-    console.log(url, "respnse from upload");
     returnUrl(url);
   };
   return (

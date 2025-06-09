@@ -94,7 +94,6 @@ const SearchModel = ({ open, setopen, modelstate }) => {
           )
           .join("&");
 
-        console.log(category, "current");
         const url = `/?${quesrySTring}&category=${category}`;
         router.push(url);
         setopen(false);

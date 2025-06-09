@@ -21,7 +21,6 @@ export default async function RootLayout({ children }) {
       <body className={`${poppins.className} antialiased`}>
         <div className="flex flex-col gap-2">
           <Navbar />
-
           {children}
         </div>
       </body>
