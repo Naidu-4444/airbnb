@@ -21,7 +21,7 @@ const Listpage = async ({ params }) => {
 
       <div className="flex justify-center">
         <Image
-          className="rounded-xl w-full h-[45vh] max-w-[800px]"
+          className="rounded-xl w-full h-[57vh] max-w-[800px]"
           src={listing.imageSrc}
           alt={listing.title}
           width={600}

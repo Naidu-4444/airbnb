@@ -3,6 +3,11 @@ import { formatISO } from "date-fns";
 
 export default async function getListing({ searchParams }) {
   try {
+    Object.keys(searchParams).forEach((key) => {
+      if (searchParams[key] === "null") {
+        delete searchParams[key];
+      }
+    });
     const {
       locationValue,
       guestCount,
@@ -12,7 +17,6 @@ export default async function getListing({ searchParams }) {
       endDate,
       category,
     } = searchParams;
-
     let query = {};
 
     if (locationValue) {
@@ -31,7 +35,7 @@ export default async function getListing({ searchParams }) {
       query.childCount = { gte: +childCount };
     }
 
-    if (category) {
+    if (category && category !== "null") {
       query.category = category;
     }
 
@@ -60,5 +64,6 @@ export default async function getListing({ searchParams }) {
     return await prisma.listing.findMany({ where: query });
   } catch (error) {
     console.log(error);
+    return [];
   }
 }

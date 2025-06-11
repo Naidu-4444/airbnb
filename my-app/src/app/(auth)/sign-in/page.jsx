@@ -1,9 +1,9 @@
-import Loginform from "@/components/loginform";
+import Login from "@/components/loginform";
 
 const SignIn = () => {
   return (
     <div>
-      <Loginform />
+      <Login />
     </div>
   );
 };

@@ -1,5 +1,5 @@
 "use client";
-import { Icons } from "./Icons";
+
 import { CircleUserRound, Search } from "lucide-react";
 import {
   DropdownMenu,
@@ -10,9 +10,12 @@ import {
 } from "./ui/dropdown-menu";
 import { useState } from "react";
 import SearchModel from "./search-model";
+import { useRouter } from "next/navigation";
+import { Icons } from "./icons";
 const Navbar = () => {
   const [open, Setopen] = useState(false);
   const [modalstate, setmodalstate] = useState(-1);
+
   const openstep = (step) => {
     if (!open) {
       Setopen(true);
@@ -65,6 +68,7 @@ const Navbar = () => {
 };
 
 const UserComp = () => {
+  const router = useRouter();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -72,7 +76,15 @@ const UserComp = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem>Profile</DropdownMenuItem>
-        <DropdownMenuItem>My Bookings</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => router.push("/bookmarks")}>
+          Favorites
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => router.push("/bookings")}>
+          Bookings
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => router.push("/properties")}>
+          Properties
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>Logout</DropdownMenuItem>
       </DropdownMenuContent>

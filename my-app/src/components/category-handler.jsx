@@ -22,7 +22,11 @@ const CategoryHandler = () => {
             <div
               className="flex items-center flex-col gap-2"
               onClick={() => {
-                params.set("category", category.label);
+                if (!category.label || activecategory === category.label) {
+                  params.delete("category");
+                } else {
+                  params.set("category", category.label);
+                }
                 router.push(`/?${params.toString()}`);
               }}
             >

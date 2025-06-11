@@ -4,8 +4,13 @@ import Calendar from "./calendar";
 import { differenceInCalendarDays, eachDayOfInterval } from "date-fns";
 import { Button } from "./ui/button";
 import reservation from "@/app/actions/reservation";
-import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import { toast } from "@/hooks/use-toast";
+
+export const formatMoney = (price) => {
+  let formatter = new Intl.NumberFormat("en-IN");
+  return formatter.format(price);
+};
 
 const Reservations = ({ price, listid, reservations }) => {
   const [dateRange, setdateRange] = useState({
@@ -13,10 +18,7 @@ const Reservations = ({ price, listid, reservations }) => {
     endDate: new Date(),
     key: "selection",
   });
-  const format = (price) => {
-    let formatter = new Intl.NumberFormat("en-IN");
-    return formatter.format(price);
-  };
+
   const router = useRouter();
   const [totalPrice, setTotalPrice] = useState(price);
   useEffect(() => {
@@ -47,25 +49,26 @@ const Reservations = ({ price, listid, reservations }) => {
 
   async function handleReservations() {
     try {
-      await reservation({
+      const res = await reservation({
         listingId: listid,
         startDate: dateRange.startDate,
         endDate: dateRange.endDate,
         price: totalPrice,
-      }).then((res) => {
-        if (res.ok) {
-          toast({
-            title: "Success",
-            description: "Reservation successful",
-          });
-          router.push("/bookings");
-        } else {
-          toast({
-            title: "Error",
-            description: "Something went wrong",
-          });
-        }
       });
+
+      if (res.ok) {
+        router.push("/bookings");
+        router.refresh();
+        toast({
+          title: "Success",
+          description: "Reservation successful",
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: "Something went wrong",
+        });
+      }
     } catch (error) {
       console.log(error, "error");
     }
@@ -80,7 +83,7 @@ const Reservations = ({ price, listid, reservations }) => {
       />
       <div className="flex gap-2 flex-col">
         <p className="text-sm font-semibold">
-          Total Price : {format(totalPrice)}
+          Total Price : {formatMoney(totalPrice)}
         </p>
         <Button onClick={handleReservations} className="mt-3">
           Reserve

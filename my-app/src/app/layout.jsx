@@ -2,7 +2,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar";
 import { getAuthSession } from "@/utils/auth";
-
+import { Toaster } from "@/components/ui/toaster";
 const poppins = Poppins({
   weight: ["400", "500", "600", "700", "800", "900"],
   subsets: ["latin"],
@@ -15,13 +15,14 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
   const session = await getAuthSession();
-  console.log(session, "session");
+  console.log("hello", session, "this is session");
   return (
     <html lang="en">
       <body className={`${poppins.className} antialiased`}>
         <div className="flex flex-col gap-2">
           <Navbar />
           {children}
+          <Toaster />
         </div>
       </body>
     </html>

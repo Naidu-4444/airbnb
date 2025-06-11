@@ -9,7 +9,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import axios from "axios";
-const Loginform = ({ origin = "signIn" }) => {
+const Login = ({ origin = "signIn" }) => {
   const [loading, setloading] = useState(false);
   const { register, handleSubmit } = useForm({
     defaultValues: {
@@ -86,4 +86,4 @@ const Loginform = ({ origin = "signIn" }) => {
     </div>
   );
 };
-export default Loginform;
+export default Login;

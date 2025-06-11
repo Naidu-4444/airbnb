@@ -3,8 +3,10 @@ import getListing from "./actions/getListing";
 import { X } from "lucide-react";
 import Link from "next/link";
 import CategoryHandler from "@/components/category-handler";
+import GetUser from "./actions/getUser";
 
 export default async function Home({ searchParams }) {
+  const user = await GetUser();
   const Listings = await getListing({ searchParams });
   if (Listings.length === 0) {
     return (
@@ -40,7 +42,14 @@ export default async function Home({ searchParams }) {
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-3">
         {Listings.map((listing) => {
-          return <ListingCard key={listing.id} listing={listing} />;
+          return (
+            <ListingCard
+              key={listing.id}
+              listing={listing}
+              user={user}
+              mark={true}
+            />
+          );
         })}
       </div>
     </div>
