@@ -15,7 +15,7 @@ const Bookings = async () => {
   }
   return (
     <div className="p-4 md:p-8">
-      <div className="grid grid-cols-4 gap-2">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
         {reservations.map((reservation) => {
           return <Bookedcard key={reservation.id} resv={reservation} />;
         })}

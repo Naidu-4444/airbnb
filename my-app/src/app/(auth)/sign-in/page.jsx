@@ -2,7 +2,7 @@ import Login from "@/components/loginform";
 
 const SignIn = () => {
   return (
-    <div>
+    <div className="flex flex-col items-center justify-center">
       <Login />
     </div>
   );

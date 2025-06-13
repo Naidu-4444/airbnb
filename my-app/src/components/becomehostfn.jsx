@@ -136,48 +136,50 @@ const Becomehostfn = () => {
     );
   } else if (step === steps.INFO) {
     sourceAtStep = (
-      <div className="mt-16 ml-11">
-        <div className="flex flex-col gap-10">
-          {[
-            {
-              label: "How many rooms do you have?",
-              value: roomCount,
-              key: "roomCount",
-            },
-            {
-              label: "How many children do you allow to join?",
-              value: children,
-              key: "children",
-            },
-            {
-              label: "How many guests are allowed to join?",
-              value: guestCount,
-              key: "guestCount",
-            },
-          ].map(({ label, value, key }) => (
-            <div
-              className="flex items-center justify-between w-[800px]"
-              key={key}
-            >
-              <h1 className="text-xl md:text-2xl font-semibold text-gray-600 w-[500px]">
-                {label}
-              </h1>
-              <div className="flex-shrink-0">
-                <Counterinput
-                  value={value}
-                  onChange={(val) => setCustomValue(key, val)}
-                />
+      <div className="flex flex-col gap-2">
+        <div className="mt-16 ml-11">
+          <div className="flex flex-col gap-10">
+            {[
+              {
+                label: "How many rooms do you have?",
+                value: roomCount,
+                key: "roomCount",
+              },
+              {
+                label: "How many children do you allow to join?",
+                value: children,
+                key: "children",
+              },
+              {
+                label: "How many guests are allowed to join?",
+                value: guestCount,
+                key: "guestCount",
+              },
+            ].map(({ label, value, key }) => (
+              <div
+                className="flex flex-col md:flex-row items-start md:items-center justify-between w-full gap-4"
+                key={key}
+              >
+                <h1 className="text-base md:text-xl font-semibold text-gray-600 md:w-1/2">
+                  {label}
+                </h1>
+                <div className="flex-shrink-0">
+                  <Counterinput
+                    value={value}
+                    onChange={(val) => setCustomValue(key, val)}
+                  />
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     );
   } else if (step === steps.IMAGE) {
     sourceAtStep = (
-      <div className="mt-16 ml-11">
+      <div className="mt-8 px-4 md:px-12">
         <div className="flex flex-col gap-10">
-          <div className="flex gap-8 items-center">
+          <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-start md:items-center">
             <h1 className="text-xl md:text-2xl font-semibold text-gray-600">
               Upload a picture of your property
             </h1>

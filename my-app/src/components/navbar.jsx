@@ -34,7 +34,7 @@ const Navbar = ({ user }) => {
         <Icons.logo className="w-6 h-6" />
         <p className="font-bold">airbnb</p>
       </div>
-      <div className="flex gap-3 bg-white rounded-full px-3 py-[4px] items-center border-2 border-gray-300">
+      <div className="hidden md:flex gap-3 bg-white rounded-full px-3 py-[4px] items-center border-2 border-gray-300">
         <div
           className="hover:bg-gray-200 transition-colors duration-200 delay-100 px-3 py-1 rounded-full cursor-pointer"
           onClick={() => openstep(0)}
