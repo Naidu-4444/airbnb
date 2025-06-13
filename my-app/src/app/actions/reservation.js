@@ -3,10 +3,9 @@
 import { prisma } from "@/utils/prisma";
 import GetUser from "./getUser";
 
-const user = await GetUser();
-
 export async function foreservations() {
   try {
+    const user = await GetUser();
     const reservations = await prisma.reservation.findMany({
       where: {
         userId: user.id,
@@ -52,6 +51,7 @@ export default async function reservation({
   price,
 }) {
   try {
+    const user = await GetUser();
     const res = await prisma.listing.update({
       where: {
         id: listingId,
