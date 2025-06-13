@@ -2,8 +2,9 @@
 
 import { prisma } from "@/utils/prisma";
 import GetUser from "./getUser";
-const user = await GetUser();
+
 export async function getFavorites() {
+  const user = await GetUser();
   if (!user) {
     return { ok: false, message: "User not found" };
   }
@@ -14,6 +15,7 @@ export async function getFavorites() {
 }
 
 export async function setFavorite(id) {
+  const user = await GetUser();
   if (!user) {
     return { ok: false, message: "User not found" };
   }
@@ -30,6 +32,7 @@ export async function setFavorite(id) {
   }
 }
 export async function removeFavoritebyId(id) {
+  const user = await GetUser();
   if (!user) {
     return { ok: false, message: "User not found" };
   }
