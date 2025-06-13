@@ -14,7 +14,7 @@ export default async function Home({ searchParams }) {
         <div className="mx-3">
           <CategoryHandler />
         </div>
-        <div className="modal__content p-5 bg-white w-[200px] md:w-3/5 min-h-[100px] border-gray-300 border-2 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md shadow-lg">
+        <div className="modal__content p-5 bg-white w-[200px] md:w-3/5 min-h-[100px] border-gray-300 border-2 fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md shadow-lg">
           <div className="flex">
             <div>
               <h1 className="font-semibold text-gray-600 mb-3">

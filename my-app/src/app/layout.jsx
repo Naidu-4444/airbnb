@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/navbar";
 import { getAuthSession } from "@/utils/auth";
 import { Toaster } from "@/components/ui/toaster";
+import GetUser from "./actions/getUser";
 const poppins = Poppins({
   weight: ["400", "500", "600", "700", "800", "900"],
   subsets: ["latin"],
@@ -14,13 +15,12 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-  const session = await getAuthSession();
-  console.log("hello", session, "this is session");
+  const user = await GetUser();
   return (
     <html lang="en">
       <body className={`${poppins.className} antialiased`}>
         <div className="flex flex-col gap-2">
-          <Navbar />
+          <Navbar user={user} />
           {children}
           <Toaster />
         </div>

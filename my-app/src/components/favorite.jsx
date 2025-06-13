@@ -1,14 +1,11 @@
-import GetUser from "@/app/actions/getUser";
 import useFavorite from "@/hooks/use-favorite";
 
 function Favorite({ className = "", user, listingId }) {
-  console.log(user);
   const { toggleFavorite, isFavorite } = useFavorite({ user, listingId });
   return (
     <div
       className={`p-1 rounded-full shadow-md cursor-pointer ${className}`}
       onClick={(e) => {
-        console.log("clicked", user.FavoriteIds);
         e.stopPropagation();
         toggleFavorite();
       }}

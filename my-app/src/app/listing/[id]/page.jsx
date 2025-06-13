@@ -13,7 +13,7 @@ const Listpage = async ({ params }) => {
   const country = getbyValue(listing.locationValue);
   const category = categories.find((item) => item.label == listing.category);
   return (
-    <div className="min-h-screen overflow-hidden p-4 md:p-8 flex flex-col gap-3">
+    <div className="min-h-screen overflow-hidden p-4 md:p-8 flex flex-col gap-6">
       <div className="flex flex-col gap-1 ml-[22.2%]">
         <h1 className="text-4xl font-semibold">{listing.title}</h1>
         <p className="text-gray-500 text-lg">{country.label}</p>
@@ -31,13 +31,16 @@ const Listpage = async ({ params }) => {
       <div className="grid grid-cols-5 gap-10">
         <div className="col-span-5 md:col-span-3 flex flex-col gap-7">
           <div className="flex items-center gap-2">
-            <Image
-              src={listing.user.image}
-              alt={listing.user.name}
-              width={40}
-              height={40}
-              className="rounded-full"
-            />
+            {listing.user.image && (
+              <Image
+                src={listing.user.image}
+                alt={listing.user.name}
+                width={40}
+                height={40}
+                className="rounded-full"
+              />
+            )}
+
             <p className="font-semibold">Hosted by {listing.user.name}</p>
           </div>
 

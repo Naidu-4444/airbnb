@@ -1,5 +1,5 @@
 "use client";
-
+import { signOut } from "next-auth/react";
 import { CircleUserRound, Search } from "lucide-react";
 import {
   DropdownMenu,
@@ -12,7 +12,10 @@ import { useState } from "react";
 import SearchModel from "./search-model";
 import { useRouter } from "next/navigation";
 import { Icons } from "./icons";
-const Navbar = () => {
+import { toast } from "@/hooks/use-toast";
+import { Button } from "./ui/button";
+const Navbar = ({ user }) => {
+  const router = useRouter();
   const [open, Setopen] = useState(false);
   const [modalstate, setmodalstate] = useState(-1);
 
@@ -24,7 +27,10 @@ const Navbar = () => {
   };
   return (
     <div className="flex justify-between py-3 bg-muted px-7 items-center">
-      <div className="flex items-center gap-1">
+      <div
+        className="flex items-center gap-1 cursor-pointer"
+        onClick={() => router.push("/")}
+      >
         <Icons.logo className="w-6 h-6" />
         <p className="font-bold">airbnb</p>
       </div>
@@ -54,9 +60,18 @@ const Navbar = () => {
           <Search />
         </div>
       </div>
-      <div>
-        <UserComp />
-      </div>
+      {user ? (
+        <div>
+          <UserComp user={user} />
+        </div>
+      ) : (
+        <Button
+          onClick={() => router.push("/sign-in")}
+          className="bg-red-400 rounded-full p-2 text-white hover:scale-105 transition-transform duration-200 delay-100 cursor-pointer"
+        >
+          Sign In
+        </Button>
+      )}
       <SearchModel
         key={modalstate}
         open={open}
@@ -67,7 +82,7 @@ const Navbar = () => {
   );
 };
 
-const UserComp = () => {
+const UserComp = ({ user }) => {
   const router = useRouter();
   return (
     <DropdownMenu>
@@ -75,18 +90,31 @@ const UserComp = () => {
         <CircleUserRound className="text-red-500" />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuItem>Profile</DropdownMenuItem>
+        <DropdownMenuItem>Hello, {user.name}</DropdownMenuItem>
         <DropdownMenuItem onClick={() => router.push("/bookmarks")}>
           Favorites
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => router.push("/bookings")}>
           Bookings
         </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => router.push("/become-a-host")}>
+          Create Property
+        </DropdownMenuItem>
         <DropdownMenuItem onClick={() => router.push("/properties")}>
           Properties
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Logout</DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
+            signOut({ callbackUrl: "/" });
+            toast({
+              title: "Success",
+              description: "Logged out successfully",
+            });
+          }}
+        >
+          Logout
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

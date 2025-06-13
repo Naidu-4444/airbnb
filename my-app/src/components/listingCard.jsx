@@ -27,12 +27,7 @@ export default function ListingCard({
     >
       <div className="flex flex-col shadow p-3 rounded-lg border relative border-gray-200  transition hover:shadow-md duration-200">
         <div className="relative w-full h-[180px] overflow-hidden rounded-lg">
-          <Image
-            src={listing.imageSrc}
-            alt={listing.title}
-            fill
-            className="object-cover rounded-md"
-          />
+          <Image src={listing.imageSrc} alt={listing.title} fill />
           {mark && (
             <div className="absolute top-2 right-2 z-10">
               <Favorite user={user} listingId={listing.id} />
@@ -44,7 +39,7 @@ export default function ListingCard({
           <h1 className="font-semibold text-lg capitalize truncate">
             {listing.title}
           </h1>
-          <p className="text-sm text-gray-600 line-clamp-2">
+          <p className="text-sm text-gray-600 line-clamp-1">
             {listing.description}
           </p>
           {showbutton && reservationData ? (
@@ -67,6 +62,7 @@ export default function ListingCard({
           {showbutton && (
             <Button
               onClick={(e) => {
+                e.stopPropagation();
                 e.preventDefault();
                 onAction();
               }}

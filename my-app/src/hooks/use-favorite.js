@@ -12,7 +12,7 @@ export default function useFavorite({ user, listingId }) {
 
   const toggleFavorite = useCallback(async () => {
     if (!user) {
-      router.push("/login");
+      router.push("/sign-in");
       return;
     }
 

@@ -47,20 +47,21 @@ const SearchModel = ({ open, setopen, modelstate }) => {
       </div>
     ),
     [STEPS.DETAILS]: (
-      <div className="flex justify-center">
-        <div className="flex flex-col gap-5">
-          <div className="flex gap-4 items-center">
-            <p className="font-semibold text-gray-600">Guests</p>
-            <Counterinput value={guest} onChange={setguest} />
-          </div>
-          <div className="flex gap-4 items-center">
-            <p className="font-semibold text-gray-600">Rooms</p>
-            <Counterinput value={rooms} onChange={setrooms} />
-          </div>
-          <div className="flex gap-2 items-center">
-            <p className="font-semibold text-gray-600">Children</p>
-            <Counterinput value={children} onChange={setchildren} />
-          </div>
+      <div className="flex justify-center mt-10">
+        <div className="flex flex-col gap-6 w-full max-w-md">
+          {[
+            ["Guests", guest, setguest],
+            ["Rooms", rooms, setrooms],
+            ["Children", children, setchildren],
+          ].map(([label, value, onChange], index) => (
+            <div
+              key={index}
+              className="flex justify-between items-center border p-4 rounded-xl shadow-sm bg-white"
+            >
+              <p className="font-semibold text-gray-700 text-lg">{label}</p>
+              <Counterinput value={value} onChange={onChange} />
+            </div>
+          ))}
         </div>
       </div>
     ),

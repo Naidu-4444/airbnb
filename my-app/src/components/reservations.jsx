@@ -6,6 +6,7 @@ import { Button } from "./ui/button";
 import reservation from "@/app/actions/reservation";
 import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
+import GetUser from "@/app/actions/getUser";
 
 export const formatMoney = (price) => {
   let formatter = new Intl.NumberFormat("en-IN");
@@ -48,6 +49,10 @@ const Reservations = ({ price, listid, reservations }) => {
   }, [reservations]);
 
   async function handleReservations() {
+    const user = await GetUser();
+    if (!user) {
+      router.push("/sign-up");
+    }
     try {
       const res = await reservation({
         listingId: listid,
@@ -65,8 +70,8 @@ const Reservations = ({ price, listid, reservations }) => {
         });
       } else {
         toast({
-          title: "Error",
-          description: "Something went wrong",
+          title: "Sign-up",
+          description: "Please sign-up first",
         });
       }
     } catch (error) {

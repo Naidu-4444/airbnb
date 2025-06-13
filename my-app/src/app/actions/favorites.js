@@ -47,7 +47,6 @@ export async function removeFavoritebyId(id) {
 }
 
 export async function getListingsByFavoriteIds(favoriteIds) {
-  console.log("favoriteIds", favoriteIds);
   if (!Array.isArray(favoriteIds) || favoriteIds.length === 0) {
     return [];
   }

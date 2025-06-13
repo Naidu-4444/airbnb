@@ -52,6 +52,7 @@ const Becomehostfn = () => {
           description: "Property created",
         });
         router.push("/properties");
+        router.refresh();
       });
     } else {
       setStep((prev) => prev + 1);
@@ -137,33 +138,38 @@ const Becomehostfn = () => {
     sourceAtStep = (
       <div className="mt-16 ml-11">
         <div className="flex flex-col gap-10">
-          <div className="flex gap-8 items-center">
-            <h1 className="text-xl md:text-2xl font-semibold text-gray-600">
-              How many rooms do you want?
-            </h1>
-            <Counterinput
-              value={roomCount}
-              onChange={(value) => setCustomValue("roomCount", value)}
-            />
-          </div>
-          <div className="flex gap-5 items-center">
-            <h1 className="text-xl md:text-2xl font-semibold text-gray-600">
-              How many children do you have?
-            </h1>
-            <Counterinput
-              value={children}
-              onChange={(value) => setCustomValue("children", value)}
-            />
-          </div>
-          <div className="flex gap-11 items-center">
-            <h1 className="text-xl md:text-2xl font-semibold text-gray-600">
-              How many guests are joining?
-            </h1>
-            <Counterinput
-              value={guestCount}
-              onChange={(value) => setCustomValue("guestCount", value)}
-            />
-          </div>
+          {[
+            {
+              label: "How many rooms do you have?",
+              value: roomCount,
+              key: "roomCount",
+            },
+            {
+              label: "How many children do you allow to join?",
+              value: children,
+              key: "children",
+            },
+            {
+              label: "How many guests are allowed to join?",
+              value: guestCount,
+              key: "guestCount",
+            },
+          ].map(({ label, value, key }) => (
+            <div
+              className="flex items-center justify-between w-[800px]"
+              key={key}
+            >
+              <h1 className="text-xl md:text-2xl font-semibold text-gray-600 w-[500px]">
+                {label}
+              </h1>
+              <div className="flex-shrink-0">
+                <Counterinput
+                  value={value}
+                  onChange={(val) => setCustomValue(key, val)}
+                />
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     );

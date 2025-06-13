@@ -28,6 +28,7 @@ const Login = ({ origin = "signIn" }) => {
         }).then((callback) => {
           if (callback?.ok) {
             console.log("logged in successfully");
+            router.push("/");
             router.refresh();
           } else if (callback?.error) {
             throw new Error(callback?.error);
@@ -36,6 +37,17 @@ const Login = ({ origin = "signIn" }) => {
       } else {
         axios.post("/api/auth/register", data).then(() => {
           console.log("registered successfully");
+          signIn("credentials", {
+            ...data,
+            redirect: false,
+          }).then((callback) => {
+            if (callback?.ok) {
+              router.refresh();
+              router.push("/");
+            } else if (callback?.error) {
+              throw new Error(callback.error);
+            }
+          });
         });
       }
     } catch (e) {
@@ -61,12 +73,17 @@ const Login = ({ origin = "signIn" }) => {
           {origin}
         </Button>
         <Button
-          type="submit"
+          type="button"
           className="px-4 py-2 rounded-md"
-          onClick={() => signIn("google")}
+          onClick={() =>
+            signIn("google", {
+              callbackUrl: "/",
+            })
+          }
         >
           <Icons.google className="w-6 h-6" /> {origin} with Google
         </Button>
+
         {origin == "signIn" ? (
           <span>
             If you don't have an account{" "}
