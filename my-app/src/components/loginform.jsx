@@ -57,7 +57,7 @@ const Login = ({ origin = "signIn" }) => {
     }
   };
   return (
-    <div className="space-y-4 flex justify-center flex-col gap-3 mx-[40%] w-[400px] h-[600px]">
+    <div className="space-y-4 flex justify-center flex-col gap-3 mx-[40%] w-[265px] md:w-[400px] h-[600px]">
       {origin == "signUp" && (
         <Input placeholder="Name" type="text" {...register("name")} />
       )}
