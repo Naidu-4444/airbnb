@@ -3,17 +3,21 @@ import { useEffect, useMemo, useState } from "react";
 import Calendar from "./calendar";
 import { differenceInCalendarDays, eachDayOfInterval } from "date-fns";
 import { Button } from "./ui/button";
-import reservation from "@/app/actions/reservation";
 import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
 import GetUser from "@/app/actions/getUser";
+import { loadStripe } from "@stripe/stripe-js";
+
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+);
 
 export const formatMoney = (price) => {
   let formatter = new Intl.NumberFormat("en-IN");
   return formatter.format(price);
 };
 
-const Reservations = ({ price, listid, reservations }) => {
+const Reservations = ({ price, listid, reservations, listingName }) => {
   const [dateRange, setdateRange] = useState({
     startDate: new Date(),
     endDate: new Date(),
@@ -22,19 +26,17 @@ const Reservations = ({ price, listid, reservations }) => {
 
   const router = useRouter();
   const [totalPrice, setTotalPrice] = useState(price);
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     if (dateRange.startDate && dateRange.endDate) {
       const days = differenceInCalendarDays(
         dateRange.endDate,
         dateRange.startDate
       );
-      if (days == 0) {
-        setTotalPrice(price);
-        return;
-      }
-      setTotalPrice(days * price);
+      setTotalPrice(days > 0 ? days * price : price);
     }
-  }, [dateRange]);
+  }, [dateRange, price]);
 
   const disabledDates = useMemo(() => {
     let dates = [];
@@ -49,33 +51,56 @@ const Reservations = ({ price, listid, reservations }) => {
   }, [reservations]);
 
   async function handleReservations() {
+    setIsLoading(true);
     const user = await GetUser();
     if (!user) {
-      router.push("/sign-up");
+      router.push("/sign-in");
+      toast({ title: "Please sign in to make a reservation." });
+      setIsLoading(false);
+      return;
     }
+
     try {
-      const res = await reservation({
-        listingId: listid,
-        startDate: dateRange.startDate,
-        endDate: dateRange.endDate,
-        price: totalPrice,
+      const response = await fetch("/api/stripe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          listingId: listid,
+          startDate: dateRange.startDate,
+          endDate: dateRange.endDate,
+          price: totalPrice,
+          listingName: listingName,
+        }),
       });
 
-      if (res.ok) {
-        router.push("/bookings");
-        router.refresh();
+      const { sessionId, error } = await response.json();
+
+      if (error) {
+        throw new Error(error);
+      }
+
+      const stripe = await stripePromise;
+      const { error: stripeError } = await stripe.redirectToCheckout({
+        sessionId,
+      });
+
+      if (stripeError) {
+        console.error("Stripe redirect error:", stripeError);
         toast({
-          title: "Success",
-          description: "Reservation successful",
-        });
-      } else {
-        toast({
-          title: "Sign-up",
-          description: "Please sign-up first",
+          title: "Error",
+          description: "Could not redirect to payment.",
+          variant: "destructive",
         });
       }
     } catch (error) {
-      console.log(error, "error");
+      console.error("Reservation error:", error);
+      toast({
+        title: "Something went wrong",
+        description: "We couldn't process your reservation. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -86,15 +111,20 @@ const Reservations = ({ price, listid, reservations }) => {
         onChange={(value) => setdateRange(value.selection)}
         disabledDates={disabledDates}
       />
-      <div className="flex gap-2 flex-col">
-        <p className="text-sm font-semibold">
+      <div className="flex gap-2 flex-col mt-4">
+        <p className="text-lg font-semibold">
           Total Price : {formatMoney(totalPrice)}
         </p>
-        <Button onClick={handleReservations} className="mt-3">
-          Reserve
+        <Button
+          onClick={handleReservations}
+          disabled={isLoading}
+          className="mt-3"
+        >
+          {isLoading ? "Processing..." : "Reserve and Pay"}
         </Button>
       </div>
     </div>
   );
 };
+
 export default Reservations;

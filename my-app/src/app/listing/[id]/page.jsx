@@ -95,6 +95,7 @@ const Listpage = async ({ params }) => {
               price={listing.price}
               listid={listing.id}
               reservations={reservations}
+              listingName={listing.title}
             />
           </div>
         </div>
