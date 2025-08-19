@@ -2,7 +2,6 @@
 import useCountries from "@/hooks/useCountries";
 import { IndianRupee } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { Button } from "./ui/button";
 import { formatMoney } from "./reservations";
 import Favorite from "./favorite";
@@ -20,12 +19,22 @@ export default function ListingCard({
   const { getbyValue } = useCountries();
   const countryDetails = getbyValue(listing.locationValue);
   const router = useRouter();
+
+  const cardClassName = `
+    flex flex-col relative
+    ${
+      !showbutton || buttonlabel == "Delete this property"
+        ? "shadow p-3 rounded-lg border border-gray-200 transition hover:shadow-md duration-200"
+        : ""
+    }
+  `;
+
   return (
     <div
       onClick={() => router.push(`/listing/${listing.id}`)}
       className="cursor-pointer"
     >
-      <div className="flex flex-col shadow p-3 rounded-lg border relative border-gray-200  transition hover:shadow-md duration-200">
+      <div className={cardClassName}>
         <div className="relative w-full h-[180px] overflow-hidden rounded-lg">
           <Image src={listing.imageSrc} alt={listing.title} fill />
           {mark && (
@@ -46,6 +55,10 @@ export default function ListingCard({
             <div className="flex items-center gap-1 mt-2">
               <IndianRupee className="w-4 h-4" />
               <p>{formatMoney(reservationData.totalPrice)}</p>
+              <p className="text-sm text-gray-500" suppressHydrationWarning>
+                {new Date(reservationData.startDate).toLocaleDateString()} -{" "}
+                {new Date(reservationData.endDate).toLocaleDateString()}
+              </p>
             </div>
           ) : (
             <div className="flex items-center gap-1 mt-2">
