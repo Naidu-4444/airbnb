@@ -15,7 +15,7 @@ const Listpage = async ({ params }) => {
   const category = categories.find((item) => item.label == listing.category);
 
   return (
-    <div className="min-h-screen overflow-hidden p-4 md:p-8 flex flex-col gap-6">
+    <div className="min-h-screen overflow-hidden p-4 md:p-8 flex flex-col gap-14">
       <div className="flex flex-col gap-1 ml-0 md:mx-[22.2%]">
         <div className="flex justify-between items-center">
           <h1 className="text-4xl font-semibold">{listing.title}</h1>
@@ -33,8 +33,8 @@ const Listpage = async ({ params }) => {
           height={600}
         />
       </div>
-      <div className="grid grid-cols-5 gap-10">
-        <div className="col-span-5 md:col-span-3 flex flex-col gap-7">
+      <div className="grid grid-cols-10 gap-10">
+        <div className="col-span-10 md:col-span-7 flex flex-col gap-7">
           <div className="flex items-center gap-2">
             {listing.user.image && (
               <Image
@@ -86,7 +86,7 @@ const Listpage = async ({ params }) => {
             <a className="font-bold underline">Learn more</a>
           </div>
         </div>
-        <div className="col-span-5 md:col-span-2">
+        <div className="col-span-10 md:col-span-3">
           <div className="p-4 border rounded-lg shadow-sm w-full md:w-fit">
             <p className="text-2xl font-bold">₹{listing.price}</p>
             <p className="text-gray-600">per night</p>
