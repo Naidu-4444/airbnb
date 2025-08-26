@@ -6,6 +6,8 @@ import { categories } from "@/static/config";
 import { Baby, House, UserRound } from "lucide-react";
 import Image from "next/image";
 import ShareButton from "@/components/ShareButton";
+import DisplayReviews from "@/components/DisplayReviews";
+import LeaveReview from "@/components/LeaveReview";
 
 const Listpage = async ({ params }) => {
   const listing = await listingbyid(params.id);
@@ -85,6 +87,10 @@ const Listpage = async ({ params }) => {
             </p>
             <a className="font-bold underline">Learn more</a>
           </div>
+          <hr />
+          <DisplayReviews reviews={listing.reviews || []} />
+          <hr />
+          <LeaveReview listingId={listing.id} />
         </div>
         <div className="col-span-10 md:col-span-3">
           <div className="p-4 border rounded-lg shadow-sm w-full md:w-fit">

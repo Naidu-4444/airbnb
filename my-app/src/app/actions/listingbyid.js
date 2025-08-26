@@ -9,6 +9,14 @@ export default async function listingbyid(id) {
     },
     include: {
       user: true,
+      reviews: {
+        include: {
+          user: true,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      },
     },
   });
   return listing;
