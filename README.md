@@ -41,5 +41,6 @@ This project is built with a modern, robust, and scalable tech stack:
 * **Favorites:** Users can bookmark their favorite listings for easy access later.
 * **My Bookings:** A dedicated page for users to view their past and upcoming trips.
 * **My Properties:** A page for property owners to manage their listed properties.
+* **Reviews and Ratings System:** A full-featured system allowing guests to rate and review properties after a completed stay.
 
 
