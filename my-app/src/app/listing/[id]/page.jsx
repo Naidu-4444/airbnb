@@ -88,9 +88,9 @@ const Listpage = async ({ params }) => {
             <a className="font-bold underline">Learn more</a>
           </div>
           <hr />
-          <DisplayReviews reviews={listing.reviews || []} />
-          <hr />
           <LeaveReview listingId={listing.id} />
+          <hr />
+          <DisplayReviews reviews={listing.reviews || []} />
         </div>
         <div className="col-span-10 md:col-span-3">
           <div className="p-4 border rounded-lg shadow-sm w-full md:w-fit">
