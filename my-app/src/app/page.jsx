@@ -10,37 +10,36 @@ export default async function Home({ searchParams }) {
   const Listings = await getListing({ searchParams });
   if (Listings.length === 0) {
     return (
-      <div className="p-4">
+      <div className="p-8">
         <div className="mx-3">
           <CategoryHandler />
         </div>
-        <div className="modal__content p-5 bg-white w-[200px] md:w-3/5 min-h-[100px] border-gray-300 border-2 fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md shadow-lg">
-          <div className="flex">
-            <div>
-              <h1 className="font-semibold text-gray-600 mb-3">
-                No listings found
-              </h1>
-              <p className="text-gray-600">
-                Try changing the filters or search for something else
-              </p>
-            </div>
-            <div>
-              <Link href="/">
-                <X className="float-right cursor-pointer absolute top-4 right-3" />
-              </Link>
-            </div>
-          </div>
+        <div className="text-center py-20">
+          <h1 className="text-2xl font-semibold text-gray-800 mb-2">
+            No exact matches
+          </h1>
+
+          <p className="text-gray-500 mb-4">
+            Try changing or removing some of your filters.
+          </p>
+
+          <Link
+            href="/"
+            className="text-white bg-rose-500 hover:bg-rose-600 rounded-lg px-4 py-2 transition"
+          >
+            Clear Filters
+          </Link>
         </div>
       </div>
     );
   }
   return (
-    <div className="flex flex-col p-4">
+    <div className="flex flex-col p-8">
       <div className="mx-3">
         <CategoryHandler />
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 pt-6">
         {Listings.map((listing) => {
           return (
             <ListingCard
