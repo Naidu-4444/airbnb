@@ -1,6 +1,6 @@
 "use client";
 import { signOut } from "next-auth/react";
-import { CircleUserRound, Search } from "lucide-react";
+import { CircleUserRound, Search, Menu } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,35 +26,34 @@ const Navbar = ({ user }) => {
     }
   };
   return (
-    <div className="flex justify-between py-3 bg-muted px-7 items-center">
+    <div className="flex justify-between py-4 px-8 items-center border-b border-gray-200">
       <div
         className="flex items-center gap-1 cursor-pointer"
         onClick={() => router.push("/")}
       >
-        <Icons.logo className="w-6 h-6" />
-        <p className="font-bold">airbnb</p>
+        <Icons.logo className="w-8 h-8 text-rose-500" />
+        <p className="font-bold text-xl text-rose-500 hidden md:block">
+          airbnb
+        </p>
       </div>
-      <div className="hidden md:flex gap-3 bg-white rounded-full px-3 py-[4px] items-center border-2 border-gray-300">
-        <div
-          className="hover:bg-gray-200 transition-colors duration-200 delay-100 px-3 py-1 rounded-full cursor-pointer"
-          onClick={() => openstep(0)}
-        >
+      <div className="hidden md:flex items-center border border-gray-300 rounded-full shadow-sm hover:shadow-md transition cursor-pointer">
+        <div className="px-4 py-2 font-semibold" onClick={() => openstep(0)}>
           Location
         </div>
         <div
-          className="hover:bg-gray-200 transition-colors duration-200 delay-100 px-3 py-1 rounded-full cursor-pointer"
+          className="px-4 py-2 font-semibold border-l border-gray-300"
           onClick={() => openstep(1)}
         >
           Date
         </div>
         <div
-          className="hover:bg-gray-200 transition-colors duration-200 delay-100 px-3 py-1 rounded-full cursor-pointer"
+          className="px-4 py-2 border-l font-semibold border-gray-300"
           onClick={() => openstep(2)}
         >
           Details
         </div>
         <div
-          className="bg-red-400 rounded-full p-2 text-white hover:scale-105 transition-transform duration-200 delay-100 cursor-pointer"
+          className="bg-rose-500 rounded-full p-2 text-white m-1"
           onClick={() => openstep(0)}
         >
           <Search />
@@ -62,12 +61,12 @@ const Navbar = ({ user }) => {
       </div>
       {user ? (
         <div>
-          <UserComp user={user} />
+          <UserMenu user={user} />
         </div>
       ) : (
         <Button
           onClick={() => router.push("/sign-in")}
-          className="bg-red-400 rounded-full p-2 text-white hover:scale-105 transition-transform duration-200 delay-100 cursor-pointer"
+          className="bg-rose-500 text-white rounded-full px-4 py-2 hover:bg-rose-600 transition"
         >
           Sign In
         </Button>
@@ -82,12 +81,15 @@ const Navbar = ({ user }) => {
   );
 };
 
-const UserComp = ({ user }) => {
+const UserMenu = ({ user }) => {
   const router = useRouter();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <CircleUserRound className="text-red-500" />
+        <div className="flex items-center gap-2 border border-gray-300 rounded-full p-2 hover:shadow-md transition">
+          <Menu className="h-5 w-5 text-gray-500" />
+          <CircleUserRound className="text-gray-700" />
+        </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem>Hello, {user.name}</DropdownMenuItem>
